@@ -40,7 +40,7 @@ export default function DefaultLayout() {
           </div>
 
           <div>
-            {user.name} &nbsp; &nbsp;
+            Welcome <span style={{textDecoration: "underline"}}>{user.name} </span> &nbsp; &nbsp;
             <a onClick={onLogout} className="btn-logout" href="#">Logout</a>
           </div>
         </header>

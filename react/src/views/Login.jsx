@@ -9,6 +9,15 @@ export default function Login() {
   const passwordRef = createRef()
   const { setUser, setToken } = useStateContext()
   const [message, setMessage] = useState(null)
+  const [showPassword, setShowPassword] = useState(true)
+  const style = {
+    cursor: 'pointer'
+  }
+
+
+  const toggleShow = () => {
+    setShowPassword(showPassword => !showPassword)
+  }
 
   const onSubmit = ev => {
     ev.preventDefault()
@@ -42,8 +51,9 @@ export default function Login() {
             </div>
           }
 
-          <input ref={emailRef} type="email" placeholder="Email"/>
-          <input ref={passwordRef} type="password" placeholder="Password"/>
+            <input ref={emailRef} type="email" placeholder="Email"/>
+            {showPassword ? <input ref={passwordRef} type="password" placeholder="Password"/> : <input ref={passwordRef} type="text" placeholder="Password"/>}
+            <p style={style} onClick={toggleShow}>{showPassword ? 'Show' : 'Hide'} password?</p>
           <button className="btn btn-block">Login</button>
           <p className="message">Not registered? <Link to="/signup">Create an account</Link></p>
         </form>
