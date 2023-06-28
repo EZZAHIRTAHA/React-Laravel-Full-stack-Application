@@ -7,13 +7,14 @@ import { useStateContext } from '../context/ContextProvider.jsx';
 export default function Users() {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [currentPage, setCurrentPage] = useState(0); // New state for current page
-  const perPage = 5; // Number of items per page
+  const [currentPage, setCurrentPage] = useState(0);
+  const [totalUsers, setTotalUsers] = useState(0); // New state for total users
+  const perPage = 5;
   const { setNotification } = useStateContext();
 
   useEffect(() => {
     getUsers();
-  }, [currentPage]); // Update the user list when the current page changes
+  }, [currentPage]);
 
   const onDeleteClick = (user) => {
     if (!window.confirm('Are you sure you want to delete this user?')) {
@@ -29,12 +30,13 @@ export default function Users() {
 
   const getUsers = () => {
     setLoading(true);
-    const page = currentPage + 1; // API pages start from 1, not 0
+    const page = currentPage + 1;
     axiosClient
       .get(`/users?page=${page}&per_page=${perPage}`)
       .then(({ data }) => {
         setLoading(false);
         setUsers(data.data);
+        setTotalUsers(data.total); // Update the totalUsers state with the total count
         console.log(data);
       })
       .catch(() => {
@@ -43,8 +45,10 @@ export default function Users() {
   };
 
   const handlePageChange = (selectedPage) => {
-    setCurrentPage(selectedPage.selected);
-  };
+  console.log('Page changed:', selectedPage.selected);
+  setCurrentPage(selectedPage.selected);
+};
+
 
   return (
     <div>
